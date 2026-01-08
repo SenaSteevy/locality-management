@@ -1,0 +1,28 @@
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    container_name: locality_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - locality_data:/data/db # Persists data even if container is deleted
+
+  # Next.js App Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: locality_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      # Use the service name 'mongodb' as the hostname
+      - MONGODB_URI=mongodb://mongodb:27017/localities_db
+    depends_on:
+      - mongodb
+
+volumes:
+  locality_data:
