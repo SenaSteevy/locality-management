@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Locality } from "@/types/locality";
+import { FormattedLocality } from "@/types/FormattedLocality";
 
 const Stat = ({ label, value }: { label: string; value: number }) => (
   <Card>
@@ -10,11 +10,11 @@ const Stat = ({ label, value }: { label: string; value: number }) => (
   </Card>
 )
 
-export const OverviewStats = ({ rawData }: { rawData: Locality[] }) => {
+export const OverviewStats = ({ rawData }: { rawData: FormattedLocality[] }) => {
 
-  const regions = rawData.filter(l => l.RegionStructureTypeId === 1);
-  const departments = rawData.filter(l => l.RegionStructureTypeId === 2);
-  const cities = rawData.filter(l => l.RegionStructureTypeId === 3);
+  const regions = rawData.filter(l => l.typeId === 1);
+  const departments = rawData.filter(l => l.typeId === 2);
+  const cities = rawData.filter(l => l.typeId === 3);
   return (
     <div className="grid grid-cols-3 gap-6 mt-10">
       <Stat label="Total Regions" value={regions.length} />

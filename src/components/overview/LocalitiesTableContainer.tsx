@@ -43,11 +43,16 @@ export const LocalitiesTableContainer = ({ filterType }: LocalitiesTableContaine
     }, 3500)
   }
 
-  // 1. Logic to filter raw data based on the page type
+  // 1. Format the raw database objects into flat table rows
+  const formatted = useMemo(
+    () => formatLocalities(rawData),
+    [rawData]
+  );
+  // 2. Logic to filter raw data based on the page type
   const displayData = useMemo(() => {
-    if (!filterType) return rawData;
-    return rawData.filter(item => item.RegionStructureTypeId === filterType);
-  }, [rawData, filterType]);
+  if (!filterType) return formatted;
+  return formatted.filter(item => item.typeId === filterType);
+}, [formatted, filterType]);
 
   const handleAddLocality = async (
     type: number,
@@ -274,17 +279,12 @@ export const LocalitiesTableContainer = ({ filterType }: LocalitiesTableContaine
     direction: "asc",
   });
 
-  // 1. Format the raw database objects into flat table rows
-  const formatted = useMemo(
-    () => formatLocalities(displayData),
-    [rawData]
-  );
-
+  
   // 2. Filter based on the search input
   const filtered = useMemo(() => {
-    if (!search) return formatted;
+    if (!search) return displayData;
     const q = search.toLowerCase();
-    return formatted.filter(
+    return displayData.filter(
       (l) =>
         l.City.toLowerCase().includes(q) ||
         l.Department.toLowerCase().includes(q) ||

@@ -59,10 +59,11 @@ export const LocalitiesTable = ({
 
   const regions = useMemo(() => getRegionList(rawData), [rawData]);
 
+
   const departments = useMemo(() => {
     return editState?.regionId ? getDeptList(rawData, Number(editState.regionId)) : [];
   }, [editState?.regionId, rawData]);
-
+  
   const getSortIcon = (key: SortKey) => {
     if (sortConfig?.key !== key) return <ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />;
     return sortConfig.direction === 'asc' ?
@@ -216,7 +217,7 @@ export const LocalitiesTable = ({
             return (
               <TableRow key={row.Id}>
                 <TableCell>
-                  <Checkbox checked={selected.includes(row.Id)} onCheckedChange={() => toggle(row.Id)} disabled={isEditing} />
+                  <Checkbox className="hover:cursor-pointer" checked={selected.includes(row.Id)} onCheckedChange={() => toggle(row.Id)} disabled={isEditing} />
                 </TableCell>
                 {/* TYPE COLUMN */}
                 <TableCell>
@@ -307,7 +308,7 @@ export const LocalitiesTable = ({
                     <Menubar className="h-8 w-8 p-0 border-none bg-transparent">
                       <MenubarMenu>
                         <MenubarTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0"><MoreVertical className="h-4 w-4" /></Button>
+                          <Button variant="ghost" className="h-8 w-8 p-0 hover:cursor-pointer"><MoreVertical className="h-4 w-4" /></Button>
                         </MenubarTrigger>
                         <MenubarContent align="end">
                           <MenubarItem onClick={() => handleEdit(row)}><Edit className="mr-2 h-4 w-4" /> Edit</MenubarItem>
